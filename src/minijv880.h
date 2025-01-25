@@ -63,6 +63,7 @@ private:
   FATFS *m_pFileSystem;
 
   CUSBMIDIDevice *volatile m_pMIDIDevice = 0;
+  CUSBMIDIDevice *volatile m_pMIDIDevice1 = 0;
   // CUSBKompleteKontrolDevice *volatile m_KompleteKontrol = 0;
   int lastEncoderPos = 0;
 

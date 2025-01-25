@@ -171,11 +171,17 @@ void CMiniJV880::Process(bool bPlugAndPlayUpdated) {
     return;
 
   if (m_pMIDIDevice == 0) {
-    m_pMIDIDevice =
-        (CUSBMIDIDevice *)CDeviceNameService::Get()->GetDevice("umidi1", FALSE);
+    m_pMIDIDevice = (CUSBMIDIDevice *)CDeviceNameService::Get()->GetDevice("umidi1", FALSE);
     if (m_pMIDIDevice != 0) {
       m_pMIDIDevice->RegisterPacketHandler(USBMIDIMessageHandler);
       m_pMIDIDevice->RegisterRemovedHandler(DeviceRemovedHandler, this);
+    }
+  }
+  if (m_pMIDIDevice1 == 0) {
+    m_pMIDIDevice1 = (CUSBMIDIDevice *)CDeviceNameService::Get()->GetDevice("umidi2", FALSE);
+    if (m_pMIDIDevice1 != 0) {
+      m_pMIDIDevice1->RegisterPacketHandler(USBMIDIMessageHandler);
+      m_pMIDIDevice1->RegisterRemovedHandler(DeviceRemovedHandler, this);
     }
   }
 }
@@ -195,6 +201,8 @@ void CMiniJV880::DeviceRemovedHandler(CDevice *pDevice, void *pContext) {
 
   if (pDevice == pThis->m_pMIDIDevice)
     pThis->m_pMIDIDevice = 0;
+  if (pDevice == pThis->m_pMIDIDevice1)
+    pThis->m_pMIDIDevice1 = 0;
 }
 
 // double avg = 0;
