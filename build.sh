@@ -3,10 +3,24 @@
 set -e 
 set -x
 
+if [[ $# -ne 1 ]] || ! [[ $1 =~ ^[2-5]$ ]]; then
+    echo "Usage: $0 <RPI_VERSION> (allowed values: 2, 3, 4, 5)"
+    exit 1
+fi
+
+export RPI=$1
+
 if [ -z "${RPI}" ] ; then
   echo "\$RPI missing, exiting"
   exit 1
 fi
+
+if [ "${RPI}" -gt "2" ]; then
+    export PATH=$(readlink -f ./gcc-*aarch64-none*/bin/):$PATH
+else
+    export PATH=$(readlink -f ./gcc-*arm-none-eabi*/bin/):$PATH
+fi
+
 
 if [ "${RPI}" -gt "2" ]; then
     export TOOLCHAIN_PREFIX="aarch64-none-elf-"
